@@ -1,27 +1,27 @@
 pipeline {
-        agent {label 'MAVEN'}
-        triggers {
-        pollSCM('* * * * *')
-        }
-        stages {
-           stage('git') {
-              steps {
-                  git url: 'https://github.com/Maheshp70/spotify-clone.git',
-                      branch: 'master' 
-                }
-            }
-            stage('build') {
-                 steps {
-                    sh 'npm install'
-                }
-            stage('deploy') {
-                 steps {
-                     sh 'npm run dev'
-                }
-            } 
-             
-        }
-
+    agent { label 'MAVEN' }
+    options { 
+        timeout(time: 20, unit: 'MINUTES') 
     }
-
-}
+    triggers {
+        pollSCM('* * * * *')
+    }
+    stages {
+        stage('git') {
+            steps {
+                git url: 'https://github.com/Maheshp70/spotify-clone.git', 
+                    branch: 'master'
+            }
+        }
+        stage('build') {
+            steps {
+                sh 'npm install'
+        }
+    }
+        stage('deploy') {
+            steps {
+                sh 'npm run dev'
+            }
+        }
+    }
+}    
